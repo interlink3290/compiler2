@@ -188,7 +188,6 @@ public class Test {
         String source=txt2String(file)+"#";
         char sourcefile[] = source.toCharArray();
         char afterfile[] = preTreatment(sourcefile);
-        System.out.println(afterfile);
-        // analysisProcess(afterfile);
+        analysisProcess(afterfile);
     }
 }
