@@ -93,7 +93,7 @@ public class Test {
             return false;
         }
         if(a=='('&&b=='#'){
-            System.out.println("RE\n");
+            System.out.println("E\n");
             return false;
         }
         if((a=='+'||a=='*')&& stackNow==stackTop && x==1){
