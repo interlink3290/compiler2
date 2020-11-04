@@ -23,10 +23,37 @@ public class Test {
         }
         return result.toString();
     }
+    /*
+     * 从文件中读入语句
+     * @return
+     */
+    public static char[] preTreatment(char[] sourcefile)
+    {
+        char []afterfile = new char[10000];
+        int index=0;
+        if(sourcefile.length!=0)
+        {
+            for(int i=0;i<sourcefile.length;i++)
+            {
+
+                if(sourcefile[i]!='\n'&&sourcefile[i]!='\r'&&sourcefile[i]!='\t')
+                {
+                    afterfile[index]=sourcefile[i];
+                    index++;
+                }
+                else {
+                    i++;
+                }
+            }
+            index++;
+            afterfile[index]='\0';
+        }
+        return String.copyValueOf(afterfile).substring(0,index-1).toCharArray();
+    }
 
     /*
-    * 优先关系表
-    * @return
+     * 优先关系表
+     * @return
      */
     public static int priorityTable(int a, int b) {
         int [][] table={
@@ -60,7 +87,7 @@ public class Test {
      * 判断一些输入不合法的情况
      * @return
      */
-    public static boolean  judge(char a,char b,int stackNow, int stackTop){
+    public static boolean  judge(char a,char b,int stackNow, int stackTop, int x){
         if(b!='#'&&b!='+'&&b!='*'&&b!='('&&b!=')'&&b!='i'){
             System.out.println("E");
             return false;
@@ -69,7 +96,7 @@ public class Test {
             System.out.println("RE\n");
             return false;
         }
-        if((a=='+'||a=='*')&& stackNow==stackTop){
+        if((a=='+'||a=='*')&& stackNow==stackTop && x==1){
             System.out.println("RE\n");
             return false;
         }
@@ -97,7 +124,7 @@ public class Test {
             char b = sentence[tokenNow];
 
 
-            if(!judge(a,b,stackNow,stackTop)){
+            if(!judge(a,b,stackNow,stackTop,0)){
                 break;
             }
 
@@ -110,7 +137,7 @@ public class Test {
             }
             else if(priorityTable(findPlace(a),findPlace(b))==1){
                 // 规约
-                if(!judge(a,b,stackNow,stackTop)){
+                if(!judge(a,b,stackNow,stackTop,1)){
                     break;
                 }
 
@@ -158,7 +185,9 @@ public class Test {
 
     public static void main(String[] args) throws IOException {
         File file=new File(args[0]);
-        String str = txt2String(file)+"#";
-        analysisProcess(str.toCharArray());
+        String source=txt2String(file)+"#";
+        char sourcefile[] = source.toCharArray();
+        char afterfile[] = preTreatment(sourcefile);
+        analysisProcess(afterfile);
     }
 }
